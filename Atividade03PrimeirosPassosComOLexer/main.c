@@ -1,42 +1,66 @@
 #include <stdio.h>
 #include <string.h>
 
-void Operador(char str[]){
+void leitorOperadores(char str[]){
+
+  // onde os caracteres serao armazenados
   char c;
-  int posString = 0;
+  // iterador para mudar de caracteres
+  int proxString = 0;
   char *verifica[9999];
   int qtdeCaracteres = 0;
-  char caractInd[9999][99];
-  
+  char caractIndice[9999][99];
+	
   for(int i = 0; i < strlen(str); i++){
     c = str[i];
     if (c == '+') {
-      verifica[posString] = "Mais\n";
-      posString++;
+      verifica[proxString] = "soma \n";
+      proxString++;
     } 
     else if(c == '-'){
-      verifica[posString]= "Menos\n";
-      posString++;
+      verifica[proxString]= "subtração \n";
+      proxString++;
+    }
+    else if(c == '*'){
+	  verifica[proxString]= "multiplicação \n";
+      proxString++;
+    }
+    else if(c == '/'){
+      verifica[proxString]= "divisão \n";
+      proxString++;
     }
     else if(c ==' '){
-      verifica[posString] = "espaco\n";
-      posString++;
+      verifica[proxString] = "espaco \n";
+      proxString++;
     }      
     else {
-      sprintf(caractInd[qtdeCaracteres], 
-		  "undefined(%c)\n", c);
-      verifica[posString] = caractInd[qtdeCaracteres];
-      posString++;
+      sprintf(caractIndice[qtdeCaracteres], "indeterminado(%c) \n", c);
+      verifica[proxString] = caractIndice[qtdeCaracteres];
+      proxString++;
       qtdeCaracteres++;
     }
   }
-     
-  for (int i = 0; i < posString; i++) {
+  printf("Operadores encontrados: \n");
+  for (int i = 0; i < proxString; i++) {
     printf("%s", verifica[i]);
   }
 }
 
-int main(void) {
-    Operador("1+1=2  1");
+int main(int argc,char *argv[]) {
+	
+  FILE *arq;
+  char c;
+  char code[9999];
+  int codeIndex = 0;
+  arq = fopen(argv[1], "r");
+  while(c!= EOF){
+    c = fgetc(arq);
+    code[codeIndex] = c;
+    codeIndex++;
+  }
+  code[codeIndex-1] = NULL;
+	
+  fclose(arq);
+  leitorOperadores(code);
   return 0;
 }
